@@ -39,36 +39,40 @@ int tokenize(char *string, char *delimiters, char ***arrayOfTokens){
 int main(){
     int run = 1;
     while(run) {
-    printf("mysh >");
-    char command[100];
-    int n = 100;
-    fgets(command, n, stdin);
-    char delimiters[] = " \n";
-    char **tokens; // Array of token strings
-    int len = tokenize(command, delimiters, &tokens);
+        printf("mysh >");
+        char command[100];
+        int n = 100;
+        fgets(command, n, stdin);
+        char delimiters[] = " \n";
+        char **tokens; // Array of token strings
+        int len = tokenize(command, delimiters, &tokens);
 
-    pid_t pid = fork() ;
-    if (pid < 0) {
-        printf("Error : cannot fork\n");
-        exit(1);
-    }
-    else if (pid == 0) {      
-        if(strcmp(tokens[0],"exit") == 0){
-            printf("i dont know !!!????\n");
+        pid_t pid;
+        if(strcmp(tokens[0],"exit") != 0){
+            pid = fork() ;
+        }else{
+            run=0;
         }
-        execvp(tokens[0],tokens);
-    }
-    else {
-        wait(0);
-        // return(0);
-    }
 
-    /*
-    After reading user input, do these steps
-    1. use tokenize() function to get command
-    2. fork a child process
-    3. child use execvp() to run command
-    4. parent call wait() until user enter "exit"
-    */
+        if (pid < 0) {
+            printf("Error : cannot fork\n");
+            exit(1);
+        }
+        else if (pid == 0) {      
+            execvp(tokens[0],tokens);
+        }
+       
+        else {
+            wait(0);
+            // return(0);
+        }
+
+        /*
+        After reading user input, do these steps
+        1. use tokenize() function to get command
+        2. fork a child process
+        3. child use execvp() to run command
+        4. parent call wait() until user enter "exit"
+        */
     }
 }
