@@ -1,0 +1,19 @@
+name myrun
+comment two types of processes
+algorithm FCFS
+seed 5000
+numprocs 5
+firstarrival 0.0
+interarrival constant 0.0
+duration constant 50
+cpuburst uniform 1 5
+ioburst constant 10
+basepriority 1.0 
+
+numprocs 1
+firstarrival 0.0
+interarrival constant 0.0 
+duration constant 100 
+cpuburst constant 50 
+ioburst uniform 1 5 
+basepriority 1.0 
