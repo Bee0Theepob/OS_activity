@@ -5,11 +5,7 @@ void *say_hello(void *data)
 {
     char *str;
     str = (char *)data;
-    // while (1)
-    // {
-        printf("%s\n", str);
-        // sleep(1);
-    // }
+    printf("%s\n", str);
 }
 void main()
 {
@@ -18,10 +14,12 @@ void main()
     pthread_create(&t2, NULL, say_hello, "Second thread from parent process");
 
     pid_t pid = fork();
-    if (pid != 0) {
-        return ;
+    if (pid != 0)
+    {
+        return;
     }
-    else {     
+    else
+    {
         pthread_create(&t3, NULL, say_hello, "First thread from child process");
         pthread_create(&t4, NULL, say_hello, "Second thread from child process");
     }

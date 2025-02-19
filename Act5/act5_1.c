@@ -14,14 +14,16 @@ void *say_hello(void *data)
 void main(int argc, char *argv[])
 {
     pthread_t t1, t2;
-    if(argc!=3){
+    if (argc != 3)
+    {
         printf("usage : labthread1 arg1 arg2\n");
-        return ;
+        return;
     }
 
     char *av[10];
-    for(int i=1;i<argc;i++){
-        av[i-1]=argv[i];
+    for (int i = 1; i < argc; i++)
+    {
+        av[i - 1] = argv[i];
     }
 
     pthread_create(&t1, NULL, say_hello, av[0]);
