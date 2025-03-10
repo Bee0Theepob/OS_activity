@@ -1,0 +1,96 @@
+Allocated inner page table for outer page 1
+Translate logical address 0x123 (outer page number 0x1, page number 0x2, offset 0x23) to physical address 0x2703
+Translate logical address 0x123 (outer page number 0x1, page number 0x2, offset 0x23) to physical address 0x2703
+Value read from memory: 0x0A
+Allocated inner page table for outer page 2
+Translate logical address 0x1234 (outer page number 0x2, page number 0x3, offset 0x34) to physical address 0x7104
+Translate logical address 0x1234 (outer page number 0x2, page number 0x3, offset 0x34) to physical address 0x7104
+Value read from memory: 0x0B
+Allocated inner page table for outer page 15
+Translate logical address 0xFF12 (outer page number 0xF, page number 0x1, offset 0x12) to physical address 0x5902
+Translate logical address 0xFF12 (outer page number 0xF, page number 0x1, offset 0x12) to physical address 0x5902
+Value read from memory: 0x0C
+Outer Page Table:
+Outer Page | Inner Page Table
+---------------------------------------
+   0x00    |                   -
+   0x01    | address of inner page table for this entry (see below)
+   0x02    | address of inner page table for this entry (see below)
+   0x03    |                   -
+   0x04    |                   -
+   0x05    |                   -
+   0x06    |                   -
+   0x07    |                   -
+   0x08    |                   -
+   0x09    |                   -
+   0x0A    |                   -
+   0x0B    |                   -
+   0x0C    |                   -
+   0x0D    |                   -
+   0x0E    |                   -
+   0x0F    | address of inner page table for this entry (see below)
+
+Inner Page Tables (only allocated tables):
+
+--- Inner Page Table for Outer Page 0x01 ---
+Inner Page | Present | Frame Number
+-----------------------------------
+   0x00    |    0    |    0x0000
+   0x01    |    0    |    0x0000
+   0x02    |    1    |    0x0027
+   0x03    |    0    |    0x0000
+   0x04    |    0    |    0x0000
+   0x05    |    0    |    0x0000
+   0x06    |    0    |    0x0000
+   0x07    |    0    |    0x0000
+   0x08    |    0    |    0x0000
+   0x09    |    0    |    0x0000
+   0x0A    |    0    |    0x0000
+   0x0B    |    0    |    0x0000
+   0x0C    |    0    |    0x0000
+   0x0D    |    0    |    0x0000
+   0x0E    |    0    |    0x0000
+   0x0F    |    0    |    0x0000
+
+--- Inner Page Table for Outer Page 0x02 ---
+Inner Page | Present | Frame Number
+-----------------------------------
+   0x00    |    0    |    0x0000
+   0x01    |    0    |    0x0000
+   0x02    |    0    |    0x0000
+   0x03    |    1    |    0x0071
+   0x04    |    0    |    0x0000
+   0x05    |    0    |    0x0000
+   0x06    |    0    |    0x0000
+   0x07    |    0    |    0x0000
+   0x08    |    0    |    0x0000
+   0x09    |    0    |    0x0000
+   0x0A    |    0    |    0x0000
+   0x0B    |    0    |    0x0000
+   0x0C    |    0    |    0x0000
+   0x0D    |    0    |    0x0000
+   0x0E    |    0    |    0x0000
+   0x0F    |    0    |    0x0000
+
+--- Inner Page Table for Outer Page 0x0F ---
+Inner Page | Present | Frame Number
+-----------------------------------
+   0x00    |    0    |    0x0000
+   0x01    |    1    |    0x0059
+   0x02    |    0    |    0x0000
+   0x03    |    0    |    0x0000
+   0x04    |    0    |    0x0000
+   0x05    |    0    |    0x0000
+   0x06    |    0    |    0x0000
+   0x07    |    0    |    0x0000
+   0x08    |    0    |    0x0000
+   0x09    |    0    |    0x0000
+   0x0A    |    0    |    0x0000
+   0x0B    |    0    |    0x0000
+   0x0C    |    0    |    0x0000
+   0x0D    |    0    |    0x0000
+   0x0E    |    0    |    0x0000
+   0x0F    |    0    |    0x0000
+Outer page table size: 128 bytes
+Inner page table size: 96 bytes
+Total page table size: 224 bytes

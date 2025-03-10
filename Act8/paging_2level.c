@@ -24,14 +24,15 @@ uint16_t translate_address(uint16_t logical_address)
 {
 
     // Assignment: get outer page number and page number from logical address
-    uint8_t outer_page_number = ? ;
-    uint8_t page_number =       ? ;
+    uint8_t outer_page_number = (logical_address >> 8) & 0xF;
+    uint8_t page_number = (logical_address >> 4) & 0xF;
 
     // Assignment: allocate inner page table
-    if (outer_page_table? == ?)
+    if (outer_page_table[outer_page_number] == NULL)
     {
         // Inner page table not present, allocate an inner page table for it
-        outer_page_table ? = ? printf("Allocated inner page table for outer page %d\n", outer_page_number);
+        outer_page_table[outer_page_number] = calloc(PAGE_ENTRIES, sizeof(PageTableEntry));
+        printf("Allocated inner page table for outer page %d\n", outer_page_number);
     }
 
     if (outer_page_table[outer_page_number][page_number].present == 0)
@@ -45,15 +46,15 @@ uint16_t translate_address(uint16_t logical_address)
         } while (frame_allocated[frame_number]); // Keep trying until we find a free frame
 
         // Assignment: mark frame as allocated
-        frame_allocated ? = ? ;
+        frame_allocated[frame_number] = 1;
 
         // Assignment: fill in page table
-        outer_page_table ? = ? ;
-        outer_page_table ? = ? ;
+        outer_page_table[outer_page_number][page_number].present = 1;
+        outer_page_table[outer_page_number][page_number].frame = frame_number;
     }
 
     // Assignment: construct physical address from frame number and offset
-    uint16_t physical_address = ? ;
+    uint16_t physical_address = (outer_page_table[outer_page_number][page_number].frame * FRAME_SIZE) + (logical_address & 0xF);
 
     printf("Translate logical address 0x%X (outer page number 0x%X, page number 0x%X, offset 0x%X) to physical address 0x%X\n",
            logical_address, outer_page_number, page_number, logical_address & 0xFF, physical_address);
