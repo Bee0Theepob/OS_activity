@@ -24,14 +24,14 @@ uint16_t translate_address(uint16_t logical_address)
 {
 
     // Assignment: get outer page number and page number from logical address
-    uint8_t outer_page_number = (logical_address >> 8) & 0xF;
-    uint8_t page_number = (logical_address >> 4) & 0xF;
+    uint8_t outer_page_number = (logical_address >> 12) & 0x0F;
+    uint8_t page_number = (logical_address >> 8) & 0x0F;
 
     // Assignment: allocate inner page table
     if (outer_page_table[outer_page_number] == NULL)
     {
         // Inner page table not present, allocate an inner page table for it
-        outer_page_table[outer_page_number] = calloc(PAGE_ENTRIES, sizeof(PageTableEntry));
+        outer_page_table[outer_page_number] = (PageTableEntry *)calloc(PAGE_ENTRIES, sizeof(PageTableEntry));
         printf("Allocated inner page table for outer page %d\n", outer_page_number);
     }
 
@@ -54,7 +54,7 @@ uint16_t translate_address(uint16_t logical_address)
     }
 
     // Assignment: construct physical address from frame number and offset
-    uint16_t physical_address = (outer_page_table[outer_page_number][page_number].frame * FRAME_SIZE) + (logical_address & 0xF);
+    uint16_t physical_address = (outer_page_table[outer_page_number][page_number].frame << 8) + (logical_address & 0xFF);
 
     printf("Translate logical address 0x%X (outer page number 0x%X, page number 0x%X, offset 0x%X) to physical address 0x%X\n",
            logical_address, outer_page_number, page_number, logical_address & 0xFF, physical_address);
@@ -143,6 +143,5 @@ int main()
     printf("Outer page table size: %zu bytes\n", sizeof(outer_page_table));
     printf("Inner page table size: %zu bytes\n", page_table_size);
     printf("Total page table size: %zu bytes\n", sizeof(outer_page_table) + page_table_size);
-
     return (0);
 }

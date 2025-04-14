@@ -7,7 +7,8 @@
 #define PAGE_SIZE 256
 #define PAGE_ENTRIES 256
 
-typedef struct PageTableEntry {
+typedef struct PageTableEntry
+{
     uint16_t present : 1;
     uint16_t frame : 15;
 } PageTableEntry;
@@ -15,11 +16,13 @@ typedef struct PageTableEntry {
 PageTableEntry page_table[PAGE_ENTRIES];
 uint8_t *physical_memory;
 
-uint16_t translate_address(uint16_t logical_address) {
+uint16_t translate_address(uint16_t logical_address)
+{
     uint8_t frame_number;
     uint8_t page_number = logical_address >> 8;
 
-    if (page_table[page_number].present == 0) {
+    if (page_table[page_number].present == 0)
+    {
         // Page not present, allocate a frame for it.
         // For simplicity, just random a frame. Must fix this later.
         frame_number = rand() % FRAME_ENTRIES;
@@ -31,34 +34,39 @@ uint16_t translate_address(uint16_t logical_address) {
     uint16_t physical_address = (page_table[page_number].frame << 8) + (logical_address & 0xFF);
 
     printf("Translate logical address 0x%X (page number 0x%x, offset 0x%02x) to physical address 0x%X \n",
-        logical_address, page_number, logical_address & 0xFF, physical_address);
+           logical_address, page_number, logical_address & 0xFF, physical_address);
 
     return physical_address;
 }
 
-void read_from_memory(uint16_t logical_address, uint8_t *value) {
+void read_from_memory(uint16_t logical_address, uint8_t *value)
+{
     uint16_t physical_address = translate_address(logical_address);
     *value = physical_memory[physical_address];
 }
 
-void write_to_memory(uint16_t logical_address, uint8_t value) {
+void write_to_memory(uint16_t logical_address, uint8_t value)
+{
     uint16_t physical_address = translate_address(logical_address);
     physical_memory[physical_address] = value;
 }
 
 // Print the current state of the page table
-void print_page_table() {
+void print_page_table()
+{
     printf("Page Table State:\n");
     printf("Page Number | Present | Frame Number\n");
     printf("------------------------------------\n");
 
-    for (int i = 0; i < PAGE_ENTRIES; i++) {
+    for (int i = 0; i < PAGE_ENTRIES; i++)
+    {
         printf("    0x%02X    |    %d    |    0x%04X\n",
                i, page_table[i].present, page_table[i].frame);
     }
 }
 
-int main() {
+int main()
+{
     // Allocate physical memory
     physical_memory = calloc(PAGE_ENTRIES, PAGE_SIZE);
 
@@ -70,7 +78,7 @@ int main() {
     write_to_memory(0x1234, 0xAB);
     read_from_memory(0x1234, &value);
     printf("Value read from memory: 0x%02X\n", value);
-	write_to_memory(0xFF12, 0xC);
+    write_to_memory(0xFF12, 0xC);
     read_from_memory(0xFF12, &value);
     printf("Value read from memory: 0x%02X\n", value);
 
